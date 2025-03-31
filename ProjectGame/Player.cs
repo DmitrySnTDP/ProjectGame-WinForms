@@ -6,38 +6,48 @@ using System.Threading.Tasks;
 
 namespace ProjectGame
 {
+    public class PositionPerson
+    {
+        public int X;
+        public int Y;
+        public PositionPerson(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
     public enum Direction
     {
         Left = -1,
         Right = 1,
     }
+
     public class Player
     {
         public readonly PictureBox Picture = new PictureBox();
-        private Direction direction;
-        private double speed;
-        
-        public readonly Tuple<int, int> Position = Tuple.Create(0,0);
+        public Direction DirectionP;
+        private int speed;
+        public PositionPerson Position;
         public readonly double Acceleration = 0;
-        public double Speed
+        public int Speed
         {
             get => speed;
-            set => speed = (int)direction * value;
+            set => speed = (int)DirectionP * value;
         }
-        public Direction DirectionP
+        public Player(Direction direction, int speed, PositionPerson position)
         {
-            get => direction;
-            set => direction = value;
-        }
-        public Player(Direction direction, double speed, Tuple<int, int> position)
-        {
-            this.direction = direction;
+            DirectionP = direction;
             this.speed = speed;
-            Position = position;
-            var image = Image.FromFile(@"D:\my_informations\code_C#\ProjectGame\ProjectGame\images\player1.gif");
+            this.Position = position;
             Picture.SizeMode = PictureBoxSizeMode.AutoSize;
-            Picture.Image = image;
-            Picture.Location = new Point(Position.Item1, Position.Item2);
+            Picture.Image = Image.FromFile(@"Images\Player1.png");
+            Picture.Location = new Point(Position.X, Position.Y);
+        }
+
+        public void UpdateLocation()
+        {
+            Picture.Location = new Point(Position.X,Position.Y);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ProjectGame
         {
             this.game = game;
             this.Size = new System.Drawing.Size(1280, 720);
-            var player = new Player(Direction.Right, game.Speed, Tuple.Create(0, 0));
+            var player = new Player(Direction.Right, 5, new PositionPerson(0, this.Height - 300));
             Controls.Add(player.Picture);
 
             FormClosing += (sender, eventArgs) =>
@@ -20,12 +20,16 @@ namespace ProjectGame
                 if (result != DialogResult.Yes)
                     eventArgs.Cancel = true;
             };
-            game.Start();
+            Paint += (sender, args) =>
+            {
+                player.Picture.Update();
+            };
+            game.Start(player);
         }
 
         public static void MainGame()
         {
-            var gameModel = new GameModel(5);
+            var gameModel = new GameModel();
             Application.Run(new GameForm(gameModel));
         }
      
@@ -35,29 +39,31 @@ namespace ProjectGame
         }
     }
 
-    public class GameModel
+    public class GameModel : Form
     {
-        public readonly double Speed;
         public int Time { get; private set; } = 0;
-        public GameModel(double speed)
+        public GameModel()
         {
-            Speed = speed;
+            
         }
         
-        public void GameTimer()
+        public void GameTimer(Player player)
         {
             var timer = new Timer();
             timer.Interval = 20;
             timer.Tick += (sender, args) =>
             {
                 Time++;
+                player.Position.X += player.Speed;
+                player.UpdateLocation();
+                //Invalidate();
             };
             timer.Start();
         }
 
-        public void Start()
+        public void Start(Player player)
         {
-
+            GameTimer(player);
         }
     }
 }
