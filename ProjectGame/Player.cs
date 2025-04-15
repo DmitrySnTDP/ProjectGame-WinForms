@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,15 +32,29 @@ namespace ProjectGame
 
     public class Player
     {
-        public readonly Bitmap Picture;
-        public Speed speed = new (0, 0);
+        public Speed speed = new(0, 0);
         public PositionPerson Position;
 
         public Player(int speedX, PositionPerson position)
         {
             speed.X = speedX;
             Position = position;
-            Picture = new Bitmap(@"Images\Player1.png", true);
+        }
+
+
+        public void MovePlayerLeft()
+        {
+            Position.X -= speed.X;
+        }
+
+        public void MovePlayerRight()
+        {
+            Position.X += speed.X;
+        }
+
+        public void JumpPlayer()
+        {
+            //DO JUMP LOGIC 
         }
     }
 }
