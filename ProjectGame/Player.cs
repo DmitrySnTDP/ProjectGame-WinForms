@@ -17,37 +17,29 @@ namespace ProjectGame
         }
     }
 
-    public enum Direction
+    public class Speed
     {
-        Left = -1,
-        Right = 1,
+        public int X;
+        public int Y;
+
+        public Speed(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 
     public class Player
     {
-        public readonly PictureBox Picture = new PictureBox();
-        public Direction DirectionP;
-        private int speed;
+        public readonly Bitmap Picture;
+        public Speed speed = new (0, 0);
         public PositionPerson Position;
-        public readonly double Acceleration = 0;
-        public int Speed
-        {
-            get => speed;
-            set => speed = (int)DirectionP * value;
-        }
-        public Player(Direction direction, int speed, PositionPerson position)
-        {
-            DirectionP = direction;
-            this.speed = speed;
-            this.Position = position;
-            Picture.SizeMode = PictureBoxSizeMode.AutoSize;
-            Picture.Image = Image.FromFile(@"Images\Player1.png");
-            Picture.Location = new Point(Position.X, Position.Y);
-        }
 
-        public void UpdateLocation()
+        public Player(int speedX, PositionPerson position)
         {
-            Picture.Location = new Point(Position.X,Position.Y);
+            speed.X = speedX;
+            Position = position;
+            Picture = new Bitmap(@"Images\Player1.png", true);
         }
     }
 }
